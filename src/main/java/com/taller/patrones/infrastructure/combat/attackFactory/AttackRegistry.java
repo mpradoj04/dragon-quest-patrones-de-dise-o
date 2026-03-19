@@ -14,6 +14,7 @@ public class AttackRegistry {
         registry.put("POISON_STING", new PoissonStingFactory());
         registry.put("THUNDER", new ThunderFactory());
         registry.put("METEORO", new MeteoroFactory());
+        registry.put("COMBO_ATTACK", new ComboAttackFactory());
     }
 
     public static AttackFactory getFactory(String name) {
