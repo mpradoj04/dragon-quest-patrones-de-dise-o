@@ -3,6 +3,9 @@ package com.taller.patrones.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.taller.patrones.infrastructure.command.AttackCommand;
+import com.taller.patrones.infrastructure.command.CommandHistory;
+
 /**
  * Representa una batalla entre dos personajes.
  */
@@ -15,6 +18,7 @@ public class Battle {
     private boolean finished;
     private int lastDamage;
     private String lastDamageTarget;
+    private final CommandHistory commandHistory = new CommandHistory();
 
     public Battle(Character player, Character enemy) {
         this.player = player;
@@ -38,4 +42,12 @@ public class Battle {
     public void finish(String winner) { finished = true; log("¡" + winner + " gana la batalla!"); }
     public boolean isPlayerTurn() { return "player".equals(currentTurn); }
     public void setLastDamage(int damage, String target) { this.lastDamage = damage; this.lastDamageTarget = target; }
+
+    public void executeAttack(AttackCommand command) {
+        commandHistory.execute(command);
+    }
+
+    public void undoLastAttack() {
+        commandHistory.undo();
+    }
 }

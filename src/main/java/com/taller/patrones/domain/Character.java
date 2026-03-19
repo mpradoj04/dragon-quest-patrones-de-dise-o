@@ -45,4 +45,8 @@ public class Character {
     public double getHpPercentage() {
         return maxHp > 0 ? (double) currentHp / maxHp * 100 : 0;
     }
+
+    public void setCurrentHp(int hp) {
+        this.currentHp = Math.max(0, Math.min(hp, maxHp));
+    }
 }
