@@ -1,0 +1,13 @@
+package com.taller.patrones.infrastructure.combat.damageStrategy;
+
+import com.taller.patrones.domain.Attack;
+import com.taller.patrones.domain.Character;
+
+public class StatusAttackStrategy implements DamageStrategy {
+    
+    @Override
+    public int calculateDamage(Character attacker, Character defender, Attack attack) {
+        return 0;
+    }
+    
+}

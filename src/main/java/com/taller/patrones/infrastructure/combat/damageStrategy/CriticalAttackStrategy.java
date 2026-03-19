@@ -1,0 +1,20 @@
+package com.taller.patrones.infrastructure.combat.damageStrategy;
+
+import com.taller.patrones.domain.Attack;
+import com.taller.patrones.domain.Character;
+
+public class CriticalAttackStrategy implements DamageStrategy {
+    
+    @Override
+    public int calculateDamage(Character attacker, Character defender, Attack attack) {
+        int raw = attacker.getAttack() * attack.getBasePower() / 100;
+        boolean isCritical = Math.random() < 0.2;
+        
+        if(isCritical) {
+            raw *= 1.5;
+        }
+        
+        return Math.max(1, raw - defender.getDefense());
+    }
+    
+}
