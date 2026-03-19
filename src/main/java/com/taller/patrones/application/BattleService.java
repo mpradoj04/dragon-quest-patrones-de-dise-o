@@ -24,15 +24,21 @@ public class BattleService {
     public static final List<String> ENEMY_ATTACKS = List.of("TACKLE", "SLASH", "FIREBALL");
 
     public BattleStartResult startBattle(String playerName, String enemyName) {
-        Character player = new Character(
-                playerName != null ? playerName : "Héroe",
-                150, 25, 15, 20
-        );
+        Character player = Character.builder()
+                .withName(playerName != null ? playerName : "Héroe")
+                .withMaxHp(150)
+                .withAttack(25)
+                .withDefense(15)
+                .withSpeed(20)
+                .build();
 
-        Character enemy = new Character(
-                enemyName != null ? enemyName : "Dragón",
-                120, 30, 10, 15
-        );
+        Character enemy = Character.builder()
+                .withName(enemyName != null ? enemyName : "Dragón")
+                .withMaxHp(120)
+                .withAttack(30)
+                .withDefense(10)
+                .withSpeed(15)
+                .build();
 
         Battle battle = new Battle(player, enemy);
         String battleId = UUID.randomUUID().toString();
@@ -76,8 +82,20 @@ public class BattleService {
 
     public BattleStartResult startBattleFromExternal(String fighter1Name, int fighter1Hp, int fighter1Atk,
                                                      String fighter2Name, int fighter2Hp, int fighter2Atk) {
-        Character player = new Character(fighter1Name, fighter1Hp, fighter1Atk, 10, 10);
-        Character enemy = new Character(fighter2Name, fighter2Hp, fighter2Atk, 10, 10);
+        Character player = Character.builder()
+                .withName(fighter1Name)
+                .withMaxHp(fighter1Hp)
+                .withAttack(fighter1Atk)
+                .withDefense(10)
+                .withSpeed(10)
+                .build();
+        Character enemy = Character.builder()
+                .withName(fighter2Name)
+                .withMaxHp(fighter2Hp)
+                .withAttack(fighter2Atk)
+                .withDefense(10)
+                .withSpeed(10)
+                .build();
         Battle battle = new Battle(player, enemy);
         String battleId = UUID.randomUUID().toString();
         battleRepository.save(battleId, battle);

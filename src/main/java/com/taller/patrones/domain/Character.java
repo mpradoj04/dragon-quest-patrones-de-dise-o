@@ -1,5 +1,7 @@
 package com.taller.patrones.domain;
 
+import com.taller.patrones.domain.builders.CharacterBuilder;
+
 /**
  * Representa un personaje en combate.
  */
@@ -12,13 +14,17 @@ public class Character {
     private final int defense;
     private final int speed;
 
-    public Character(String name, int maxHp, int attack, int defense, int speed) {
+    private Character(String name, int maxHp, int attack, int defense, int speed) {
         this.name = name;
         this.maxHp = maxHp;
         this.currentHp = maxHp;
         this.attack = attack;
         this.defense = defense;
         this.speed = speed;
+    }
+
+    public static CharacterBuilder builder() {
+        return new CharacterBuilder();
     }
 
     public String getName() { return name; }
