@@ -3,6 +3,8 @@ package com.taller.patrones.interfaces.rest;
 import com.taller.patrones.application.BattleService;
 import com.taller.patrones.domain.Battle;
 import com.taller.patrones.domain.Character;
+import com.taller.patrones.interfaces.rest.adapters.ExternalFormatAdapter;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,16 +47,13 @@ public class BattleController {
      */
     @PostMapping("/start/external")
     public ResponseEntity<Map<String, Object>> startBattleFromExternal(@RequestBody Map<String, Object> body) {
-        String fighter1Name = (String) body.getOrDefault("fighter1_name", "Héroe");
-        int fighter1Hp = ((Number) body.getOrDefault("fighter1_hp", 150)).intValue();
-        int fighter1Atk = ((Number) body.getOrDefault("fighter1_atk", 25)).intValue();
-        String fighter2Name = (String) body.getOrDefault("fighter2_name", "Dragón");
-        int fighter2Hp = ((Number) body.getOrDefault("fighter2_hp", 120)).intValue();
-        int fighter2Atk = ((Number) body.getOrDefault("fighter2_atk", 30)).intValue();
+
+        ExternalFormatAdapter adapter = new ExternalFormatAdapter();
+        ExternalFormatAdapter.Data data = adapter.adapt(body);
 
         var result = battleService.startBattleFromExternal(
-                fighter1Name, fighter1Hp, fighter1Atk,
-                fighter2Name, fighter2Hp, fighter2Atk
+                data.fighter1Name(), data.fighter1Hp(), data.fighter1Atk(),
+                data.fighter2Name(), data.fighter2Hp(), data.fighter2Atk()
         );
         Battle battle = result.battle();
 
