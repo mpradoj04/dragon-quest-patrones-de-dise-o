@@ -4,6 +4,8 @@ import com.taller.patrones.domain.Attack;
 import com.taller.patrones.domain.Battle;
 import com.taller.patrones.domain.Character;
 import com.taller.patrones.infrastructure.combat.CombatEngine;
+import com.taller.patrones.infrastructure.observer.DamagePublisher;
+import com.taller.patrones.infrastructure.observer.LogObserver;
 import com.taller.patrones.infrastructure.persistence.BattleRepository;
 
 import java.util.List;
@@ -22,6 +24,10 @@ public class BattleService {
 
     public static final List<String> PLAYER_ATTACKS = List.of("TACKLE", "SLASH", "FIREBALL", "ICE_BEAM", "POISON_STING", "THUNDER", "METEORO");
     public static final List<String> ENEMY_ATTACKS = List.of("TACKLE", "SLASH", "FIREBALL");
+
+    public BattleService() {
+        DamagePublisher.subscribe(new LogObserver());
+    }
 
     public BattleStartResult startBattle(String playerName, String enemyName) {
         Character player = Character.builder()
@@ -73,7 +79,7 @@ public class BattleService {
         defender.takeDamage(damage);
         String target = defender == battle.getPlayer() ? "player" : "enemy";
         battle.setLastDamage(damage, target);
-        battle.log(attacker.getName() + " usa " + attack.getName() + " y hace " + damage + " de daño a " + defender.getName());
+        DamagePublisher.notify(battle, attacker, defender, damage, attack);
         battle.switchTurn();
         if (!defender.isAlive()) {
             battle.finish(attacker.getName());
