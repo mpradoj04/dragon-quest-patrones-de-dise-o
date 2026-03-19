@@ -14,7 +14,7 @@ public class Character {
     private final int defense;
     private final int speed;
 
-    private Character(String name, int maxHp, int attack, int defense, int speed) {
+    public Character(String name, int maxHp, int attack, int defense, int speed) {
         this.name = name;
         this.maxHp = maxHp;
         this.currentHp = maxHp;
